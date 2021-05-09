@@ -23,7 +23,7 @@ namespace Grocery.Application.Products.Queries
 
         public async Task<ProductDto> Handle(GetProductDetailQuery request, CancellationToken cancellationToken)
         {
-            return await _productService.GetProductByIdAsync(request.ProductId);
+            return await _productService.GetProductByIdAsync(request, cancellationToken);
         }
     }
 }

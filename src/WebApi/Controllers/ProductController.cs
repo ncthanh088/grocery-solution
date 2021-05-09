@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using Grocery.Application.Products.Commands;
 using Grocery.Application.Products.Queries;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Grocery.WebApi.Controllers
 {
@@ -23,7 +21,7 @@ namespace Grocery.WebApi.Controllers
         public async Task<IActionResult> GetProductsAsync([FromBody] GetProductsQuery request)
         {
             var response = await Mediator.Send(request);
-            
+
             return Ok(response);
         }
 
@@ -31,7 +29,29 @@ namespace Grocery.WebApi.Controllers
         public async Task<IActionResult> CreateProductAsync([FromBody] CreateProductCommand request)
         {
             var response = await Mediator.Send(request);
-                        
+
+            return Ok(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProductByIdAsync(Guid id)
+        {
+            var request = new DeleteProductCommand() { Id = id };
+            var response = await Mediator.Send(request);
+
+            return Ok(response);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateProductAsync(Guid id, UpdateProductCommand request)
+        {
+            if (id != request.Id)
+            {
+                return BadRequest();
+            }
+
+            var response = await Mediator.Send(request);
+
             return Ok(response);
         }
     }

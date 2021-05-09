@@ -47,15 +47,13 @@ namespace Grocery.Application.Services
 
             _context.Products.Add(product);
 
-            var result = await _context.SaveChangesAsync(cancellationToken);
-
-            return result > 0;
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
         }
 
-        public async Task<bool> DeleteProductAsync(Guid productId, CancellationToken cancellationToken)
+        public async Task<bool> DeleteProductAsync(DeleteProductCommand request, CancellationToken cancellationToken)
         {
             // TODO: create a transaction to delete a Product and Product Translation
-            var productEntity = await _context.Products.FindAsync(productId);
+            var productEntity = await _context.Products.FindAsync(request.Id);
 
             if (productEntity == null)
             {
@@ -64,15 +62,78 @@ namespace Grocery.Application.Services
 
             _context.Products.Remove(productEntity);
 
-            var result = await _context.SaveChangesAsync(cancellationToken);
-
-            return result > 0;
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
         }
 
-        public async Task<ProductDto> GetProductByIdAsync(Guid productId)
+        public async Task<bool> UpdateProductAsync(UpdateProductCommand request, CancellationToken cancellationToken)
+        {
+            var productEntity = await _context.Products.FindAsync(request.Id);
+            var productTranslationEntity = await _context.ProductTranslations.FirstOrDefaultAsync(
+                    x => x.ProductId.Equals(request.Id) && x.LanguageId.Equals(request.LanguageId));
+
+            if (productEntity == null || productTranslationEntity == null)
+            {
+                throw new EntityNotFoundException(typeof(Product).Name, request.Id);
+            }
+
+            _context.ProductTranslations.Update(new ProductTranslation
+            {
+                Name = request.Name,
+                Detail = request.Detail,
+                Description = request.Description,
+                SaleTitle = request.SaleTitle,
+                SaleDescription = request.SaleDescription
+            });
+
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
+        }
+
+        public async Task<bool> UpdatePriceAsync(Guid productId, float newPrice, CancellationToken cancellationToken)
+        {
+            var productEntity = await _context.Products.FindAsync(productId);
+
+            if (productEntity == null)
+            {
+                throw new EntityNotFoundException(typeof(Product).Name, productId);
+            }
+
+            productEntity.Price = newPrice;
+
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
+        }
+
+        public async Task<bool> UpdateStockAsync(Guid productId, int quantity, CancellationToken cancellationToken)
+        {
+            var productEntity = await _context.Products.FindAsync(productId);
+
+            if (productEntity == null)
+            {
+                throw new EntityNotFoundException(typeof(Product).Name, productId);
+            }
+
+            productEntity.Stock = quantity;
+
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
+        }
+
+        public async Task<bool> UpdateViewCountAsync(Guid productId, int viewCount, CancellationToken cancellationToken)
+        {
+            var productEntity = await _context.Products.FindAsync(productId);
+
+            if (productEntity == null)
+            {
+                throw new EntityNotFoundException(typeof(Product).Name, productId);
+            }
+
+            productEntity.ViewCount = viewCount;
+
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
+        }
+
+        public async Task<ProductDto> GetProductByIdAsync(GetProductDetailQuery request, CancellationToken cancellationToken)
         {
             var productEntity = await _context.Products
-                                    .Where(x => x.Id == productId)
+                                    .Where(x => x.Id == request.ProductId)
                                     .OrderBy(x => x.CreateAt)
                                     .FirstOrDefaultAsync();
 
@@ -82,6 +143,12 @@ namespace Grocery.Application.Services
             }
 
             return ProductDto.Create(productEntity);
+        }
+
+        public Task<PaginatedList<ProductModel>> GetProductsByCategoryIdAsync(Guid categoryId, CancellationToken cancellationToken)
+        {
+            // TODO: use Query model or direct value to implement this function
+            throw new NotImplementedException();
         }
 
         public async Task<PaginatedList<ProductModel>> GetProductsAsync(GetProductsQuery request, CancellationToken cancellationToken)
