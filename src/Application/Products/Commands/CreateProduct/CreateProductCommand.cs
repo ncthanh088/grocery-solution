@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Grocery.Domain.Entities;
 using Grocery.Application.Common.Interfaces;
-namespace Grocery.Application.Products.Commands
+
+namespace Grocery.Application.Products.Commands.CreateProduct
 {
     public class CreateProductCommand : IRequest<bool>
     {

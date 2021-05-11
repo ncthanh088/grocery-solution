@@ -7,7 +7,7 @@ using Grocery.Domain.Exceptions;
 using Grocery.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Grocery.Application.Products.Commands
+namespace Grocery.Application.Products.Commands.UpdateProduct
 {
     public class UpdateProductCommand : IRequest<bool>
     {

@@ -25,9 +25,9 @@ namespace Grocery.Application.Products.Queries
         public async Task<ProductDto> Handle(GetProductDetailQuery request, CancellationToken cancellationToken)
         {
             var productEntity = await _context.Products
-                                    .Where(x => x.Id == request.ProductId)
-                                    .OrderBy(x => x.CreateAt)
-                                    .FirstOrDefaultAsync();
+                                        .Where(x => x.Id == request.ProductId)
+                                        .OrderBy(x => x.CreateAt)
+                                        .FirstOrDefaultAsync();
 
             if (productEntity == null)
             {

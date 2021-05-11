@@ -1,4 +1,4 @@
-namespace Grocery.Application.Users.Queries.GetUserDetail
+namespace Grocery.Application.Users.Queries
 {
     public class GetUserDetailQuery
     {

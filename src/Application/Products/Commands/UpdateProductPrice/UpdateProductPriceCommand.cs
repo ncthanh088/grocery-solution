@@ -6,22 +6,22 @@ using Grocery.Domain.Entities;
 using Grocery.Domain.Exceptions;
 using Grocery.Application.Common.Interfaces;
 
-namespace Grocery.Application.Products.Commands
+namespace Grocery.Application.Products.Commands.UpdateProductPrice
 {
-    public class UpdateProductViewCountCommand : IRequest<bool>
+    public class UpdateProductPriceCommand : IRequest<bool>
     {
         public Guid ProductId { get; set; }
-        public int ViewCount { get; set; }
+        public float Price { get; set; }
     }
 
-    public class UpdateProductViewCountCommandHandler : IRequestHandler<UpdateProductViewCountCommand, bool>
+    public class UpdateProductPriceCommandHandler : IRequestHandler<UpdateProductPriceCommand, bool>
     {
         private readonly IApplicationDbContext _context;
-        public UpdateProductViewCountCommandHandler(IApplicationDbContext context)
+        public UpdateProductPriceCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }
-        public async Task<bool> Handle(UpdateProductViewCountCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateProductPriceCommand request, CancellationToken cancellationToken)
         {
             var productEntity = await _context.Products.FindAsync(request.ProductId);
 
@@ -30,7 +30,7 @@ namespace Grocery.Application.Products.Commands
                 throw new EntityNotFoundException(typeof(Product).Name, request.ProductId);
             }
 
-            productEntity.Stock = request.ViewCount;
+            productEntity.Price = request.Price;
 
             return await _context.SaveChangesAsync(cancellationToken) > 0;
         }

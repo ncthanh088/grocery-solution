@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Grocery.Domain.Exceptions;
 using Grocery.Application.Common.Interfaces;
 
-namespace Grocery.Application.Products.Commands
+namespace Grocery.Application.Products.Commands.DeleteProduct
 {
     public class DeleteProductCommand : IRequest<bool>
     {

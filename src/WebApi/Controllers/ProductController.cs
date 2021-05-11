@@ -1,8 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using Grocery.Application.Products.Commands;
-using Grocery.Application.Products.Queries;
 using Microsoft.AspNetCore.Mvc;
+using Grocery.Application.Products.Queries;
+using Grocery.Application.Products.Commands.CreateProduct;
+using Grocery.Application.Products.Commands.DeleteProduct;
+using Grocery.Application.Products.Commands.UpdateProduct;
+using Grocery.Application.Products.Commands.UpdateProductPrice;
 
 namespace Grocery.WebApi.Controllers
 {
@@ -51,6 +54,19 @@ namespace Grocery.WebApi.Controllers
             }
 
             var response = await Mediator.Send(request);
+
+            return Ok(response);
+        }
+
+        [HttpPut("{id}/price/{newPrice}")]
+        public async Task<ActionResult> UpdatePriceAsync([FromQuery] Guid id, float newPrice)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var response = await Mediator.Send(request: new UpdateProductPriceCommand() { ProductId = id, Price = newPrice });
 
             return Ok(response);
         }

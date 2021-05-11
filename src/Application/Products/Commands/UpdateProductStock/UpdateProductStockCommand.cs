@@ -6,7 +6,7 @@ using Grocery.Domain.Entities;
 using Grocery.Domain.Exceptions;
 using Grocery.Application.Common.Interfaces;
 
-namespace Grocery.Application.Products.Commands
+namespace Grocery.Application.Products.Commands.UpdateProductStock
 {
     public class UpdateProductStockCommand : IRequest<bool>
     {
