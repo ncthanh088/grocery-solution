@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Grocery.WebApi.Controllers
+namespace Grocery.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

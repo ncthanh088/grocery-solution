@@ -7,7 +7,7 @@ using Grocery.Application.Products.Commands.DeleteProduct;
 using Grocery.Application.Products.Commands.UpdateProduct;
 using Grocery.Application.Products.Commands.UpdateProductPrice;
 
-namespace Grocery.WebApi.Controllers
+namespace Grocery.Api.Controllers
 {
     public class ProductController : BaseController
     {

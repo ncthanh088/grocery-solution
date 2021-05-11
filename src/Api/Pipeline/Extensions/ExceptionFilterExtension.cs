@@ -1,7 +1,7 @@
-using Grocery.WebApi.Pipeline.Filters;
+using Grocery.Api.Pipeline.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Grocery.WebApi.Pipeline.Extensions
+namespace Grocery.Api.Pipeline.Extensions
 {
     public static class ExceptionFilterExtension
     {

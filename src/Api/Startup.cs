@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Grocery.Infrastructure.Extensions;
 using Grocery.Application.Extensions;
-using Grocery.WebApi.Pipeline.Extensions;
+using Grocery.Api.Pipeline.Extensions;
 
-namespace Grocery.WebApi
+namespace Grocery.Api
 {
     public class Startup
     {

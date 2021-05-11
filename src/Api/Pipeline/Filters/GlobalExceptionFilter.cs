@@ -4,7 +4,7 @@ using Grocery.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Grocery.WebApi.Pipeline.Filters
+namespace Grocery.Api.Pipeline.Filters
 {
     /// <summary>
     /// Reference: https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-5.0#exception-filters
