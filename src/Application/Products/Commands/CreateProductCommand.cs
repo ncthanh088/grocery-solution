@@ -1,9 +1,10 @@
+using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Grocery.Application.Services.Abstractions;
-using MediatR;
-
+using System.Collections.Generic;
+using Grocery.Domain.Entities;
+using Grocery.Application.Common.Interfaces;
 namespace Grocery.Application.Products.Commands
 {
     public class CreateProductCommand : IRequest<bool>
@@ -20,14 +21,36 @@ namespace Grocery.Application.Products.Commands
 
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, bool>
     {
-        IProductService _productService;
-        public CreateProductCommandHandler(IProductService productService)
+        private readonly IApplicationDbContext _context;
+        public CreateProductCommandHandler(IApplicationDbContext context)
         {
-            _productService = productService;
+            _context = context;
         }
         public async Task<bool> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            return await _productService.CreateProductAsync(request, cancellationToken);
+            var product = new Product()
+            {
+                Price = request.Price,
+                OriginalPrice = request.OriginalPrice,
+                Stock = request.Stock,
+                ViewCount = 0,
+                CreateAt = DateTime.Now,
+                ProductTranslations = new List<ProductTranslation>()
+                {
+                    new ProductTranslation()
+                    {
+                        Name = request.Name,
+                        Description = request.Description,
+                        Detail = request.Detail,
+                        SaleDescription = request.SaleDescription,
+                        SaleTitle = request.SaleTitle,
+                    }
+                }
+            };
+
+            _context.Products.Add(product);
+
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
         }
     }
 }

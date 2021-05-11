@@ -1,12 +1,9 @@
-using Grocery.Application.Common.Interfaces;
-using Grocery.Application.Services;
-using Grocery.Application.Services.Abstractions;
-using Grocery.Infrastructure.Persistence;
 using Grocery.Infrastructure.Service;
+using Grocery.Infrastructure.Persistence;
+using Grocery.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace Grocery.Infrastructure.Extensions
 {
     public static class ServiceExtension
@@ -26,9 +23,7 @@ namespace Grocery.Infrastructure.Extensions
                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
             }
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());           
-            services.AddScoped<IProductService, ProductService>();
-            
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddTransient<IDateTime, DateTimeService>();
 
             return services;

@@ -1,8 +1,11 @@
+using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Grocery.Application.Services.Abstractions;
-using MediatR;
+using Grocery.Domain.Entities;
+using Grocery.Domain.Exceptions;
+using Grocery.Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Grocery.Application.Products.Commands
 {
@@ -24,14 +27,32 @@ namespace Grocery.Application.Products.Commands
 
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, bool>
     {
-        IProductService _productService;
-        public UpdateProductCommandHandler(IProductService productService)
+        private readonly IApplicationDbContext _context;
+        public UpdateProductCommandHandler(IApplicationDbContext context)
         {
-            _productService = productService;
+            _context = context;
         }
         public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            return await _productService.UpdateProductAsync(request, cancellationToken);
+            var productEntity = await _context.Products.FindAsync(request.Id);
+            var productTranslationEntity = await _context.ProductTranslations
+                    .FirstOrDefaultAsync(x => x.ProductId.Equals(request.Id) && x.LanguageId.Equals(request.LanguageId));
+
+            if (productEntity == null || productTranslationEntity == null)
+            {
+                throw new EntityNotFoundException(typeof(Product).Name, request.Id);
+            }
+
+            _context.ProductTranslations.Update(new ProductTranslation
+            {
+                Name = request.Name,
+                Detail = request.Detail,
+                Description = request.Description,
+                SaleTitle = request.SaleTitle,
+                SaleDescription = request.SaleDescription
+            });
+
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
         }
     }
 }
