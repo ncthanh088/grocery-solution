@@ -8,7 +8,7 @@ namespace Grocery.Infrastructure.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.ToTable("Categorys");
+            builder.ToTable("Categories");
             builder.HasKey(x => x.Id);
         }
     }

@@ -8,6 +8,8 @@ namespace Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Tax> builder)
         {
+            builder.ToTable("Taxes");
+            builder.HasKey(x => x.Id);
             builder.HasData(new Tax() { Id = 1, Name = "VAT" });
         }
     }

@@ -1,10 +1,12 @@
 using System;
+using Grocery.Domain.Common;
 using Grocery.Domain.Enums;
 
 namespace Grocery.Domain.Entities
 {
-    public class UserAddress 
+    public class UserAddress : IEntity<long>
     {
+        public long Id { get; set; }
         public long UserId { get; set; }
         public User User { get; set; }
         public long AddressId { get; set; }

@@ -9,8 +9,7 @@ namespace Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<UserAddress> builder)
         {
             // UserAddress
-            builder.ToTable("UserAddress");
-            builder.HasKey(x => new { x.UserId, x.AddressId });
+            builder.ToTable("UserAddresses");
 
             // UserAddress's relationships
             builder.HasOne(x => x.User)
