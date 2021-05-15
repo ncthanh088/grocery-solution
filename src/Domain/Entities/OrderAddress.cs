@@ -1,7 +1,10 @@
+using Grocery.Domain.Common;
+
 namespace Grocery.Domain.Entities
 {
-    public class OrderAddress
+    public class OrderAddress : IEntity<long>
     {
+        public long Id { get; set; }
         public string ContactName { get; set; }
         public string Phone { get; set; }
         public string AddressLine1 { get; set; }

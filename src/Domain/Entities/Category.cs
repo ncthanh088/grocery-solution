@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using Grocery.Domain.Common;
 namespace Grocery.Domain.Entities
 {
-    public class Category : IEntity<int>
+    public class Category : IEntity<long>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string MetaTitle { get; set; }
         public string MetaKeywords { get; set; }

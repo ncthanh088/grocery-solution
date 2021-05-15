@@ -4,9 +4,9 @@ namespace Grocery.Domain.Entities
     {
         public bool IsFeaturedProduct { get; set; }
         public int DisplayOrder { get; set; }
-        public int CategoryId { get; set; }
-        public int ProductId { get; set; }
+        public long CategoryId { get; set; }
         public Category Category { get; set; }
+        public long ProductId { get; set; }
         public Product Product { get; set; }
     }
 }

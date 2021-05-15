@@ -8,7 +8,7 @@ namespace Grocery.Application.Products.Commands.DeleteProduct
 {
     public class DeleteProductCommand : IRequest<bool>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
     }
 
     public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, bool>

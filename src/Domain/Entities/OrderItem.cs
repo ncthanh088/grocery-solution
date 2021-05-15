@@ -2,9 +2,9 @@ using Grocery.Domain.Common;
 
 namespace Grocery.Domain.Entities
 {
-    public class OrderItem : IEntity<int>
+    public class OrderItem : IEntity<long>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Order Order { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }

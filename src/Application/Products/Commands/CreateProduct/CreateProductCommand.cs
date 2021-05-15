@@ -10,7 +10,7 @@ namespace Grocery.Application.Products.Commands.CreateProduct
 {
     public class CreateProductCommand : IRequest<bool>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string MetaTitle { get; set; }
         public string MetaKeywords { get; set; }

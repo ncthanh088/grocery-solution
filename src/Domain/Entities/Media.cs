@@ -3,9 +3,9 @@ using Grocery.Domain.Enums;
 
 namespace Grocery.Domain.Entities
 {
-    public class Media : IEntity<int>
+    public class Media : IEntity<long>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Caption { get; set; }
         public int FileSize { get; set; }
         public string FileName { get; set; }

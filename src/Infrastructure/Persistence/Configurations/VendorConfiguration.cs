@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Grocery.Infrastructure.Persistence.Configuration
 {
-    public class CategoryTranslationConfiguration : IEntityTypeConfiguration<CategoryTranslation>
+    public class VendorConfigurationConfiguration : IEntityTypeConfiguration<Vendor>
     {
-        public void Configure(EntityTypeBuilder<CategoryTranslation> builder)
+        public void Configure(EntityTypeBuilder<Vendor> builder)
         {
-            builder.ToTable("CategoryTranslations");
+            builder.ToTable("Vendors");
             builder.HasKey(x => x.Id);
         }
     }

@@ -8,7 +8,7 @@ namespace Grocery.Infrastructure.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
-            builder.ToTable("UserRoles");
+            builder.ToTable("UserRole");
             builder.HasKey(x => new { x.UserId, x.RoleId });
         }
     }

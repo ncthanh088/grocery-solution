@@ -13,7 +13,7 @@ namespace Grocery.Application.Products.Commands.UpdateProduct
 {
     public class UpdateProductCommand : IRequest<bool>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string MetaTitle { get; set; }
         public string MetaKeywords { get; set; }
@@ -42,7 +42,7 @@ namespace Grocery.Application.Products.Commands.UpdateProduct
         public double? RatingAverage { get; set; }
         public int? BrandId { get; set; }
         public Brand Brand { get; set; }
-        public IList<int> CategoryIds { get; set; } = new List<int>();
+        public IList<long> CategoryIds { get; set; } = new List<long>();
     }
 
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, bool>

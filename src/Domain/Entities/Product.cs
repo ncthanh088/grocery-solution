@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Grocery.Domain.Common;
 namespace Grocery.Domain.Entities
 {
-    public class Product : AuditEntity, IEntity<int>
+    public class Product : AuditEntity, IEntity<long>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string Slug { get; set; }
         public string MetaTitle { get; set; }
@@ -34,7 +34,7 @@ namespace Grocery.Domain.Entities
         public long? VendorId { get; set; }
         public int ReviewsCount { get; set; }
         public double? RatingAverage { get; set; }
-        public int? BrandId { get; set; }
+        public long? BrandId { get; set; }
         public Brand Brand { get; set; }
         public Media ThumbnailImage { get; set; }       
         public IList<ProductCategory> Categories { get; protected set; } = new List<ProductCategory>();

@@ -4,9 +4,9 @@ using Grocery.Domain.Enums;
 
 namespace Grocery.Domain.Entities
 {
-    public class OrderHistory : IEntity<int>
+    public class OrderHistory : IEntity<long>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public int OrderId { get; set; }
         public Order Order { get; set; }
         public OrderStatus? OldStatus { get; set; }

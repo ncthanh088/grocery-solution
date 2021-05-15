@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Grocery.Domain.Common;
 
 namespace Grocery.Domain.Entities
 {
-    public class Country
+    public class Country : IEntity<string>
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Code3 { get; set; }
         public bool IsBillingEnabled { get; set; }

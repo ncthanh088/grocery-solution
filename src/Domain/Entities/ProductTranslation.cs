@@ -3,9 +3,9 @@ using Grocery.Domain.Common;
 
 namespace Grocery.Domain.Entities
 {
-    public class ProductTranslation : IEntity<int>
+    public class ProductTranslation : IEntity<long>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public int ProductId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

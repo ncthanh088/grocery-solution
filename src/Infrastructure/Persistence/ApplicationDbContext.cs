@@ -15,15 +15,15 @@ namespace Grocery.Infrastructure.Persistence
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Promotion> Promotions { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<ProductTranslation> ProductTranslations { get; set; }
-        public DbSet<CategoryTranslation> CategoryTranslations { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<District> Districts { get; set; }
+        public DbSet<StateOrProvince> StateOrProvinces { get; set; }
+        public DbSet<Country> Countries { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

@@ -5,9 +5,9 @@ using Grocery.Domain.Enums;
 
 namespace Grocery.Domain.Entities
 {
-    public class Order : IEntity<int>
+    public class Order : IEntity<long>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public long CustomerId { get; set; }
         public User Customer { get; set; }
         public DateTimeOffset LatestUpdatedOn { get; set; }

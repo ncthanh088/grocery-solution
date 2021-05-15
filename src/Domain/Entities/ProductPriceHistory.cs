@@ -3,11 +3,11 @@ using Grocery.Domain.Common;
 
 namespace Grocery.Domain.Entities
 {
-    public class ProductPriceHistory : IEntity<int>
+    public class ProductPriceHistory : IEntity<long>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Product Product { get; set; }
-        public int CreatedById { get; set; }
+        public long CreatedById { get; set; }
         public User CreatedBy { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public decimal? Price { get; set; }
