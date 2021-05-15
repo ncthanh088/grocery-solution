@@ -1,11 +1,10 @@
 using System;
 using Grocery.Domain.Common;
-
 namespace Grocery.Domain.Entities
 {
-    public class CategoryTranslation : IEntity<Guid>
+    public class CategoryTranslation : IEntity<int>
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public Guid CategoryId { get; set; }
         public string Name { get; set; }
         public string SaleDescription { get; set; }

@@ -2,27 +2,47 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 using Grocery.Domain.Entities;
 using Grocery.Domain.Exceptions;
 using Grocery.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Grocery.Application.Products.Commands.UpdateProduct
 {
     public class UpdateProductCommand : IRequest<bool>
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public float Price { get; set; }
-        public float OriginalPrice { get; set; }
-        public int Stock { get; set; }
-        public int ViewCount { get; set; }
-        public string Detail { get; set; }
+        public string MetaTitle { get; set; }
+        public string MetaKeywords { get; set; }
+        public string MetaDescription { get; set; }
+        public bool IsPublished { get; set; }
+        public DateTimeOffset? PublishedOn { get; set; }
+        public bool IsDeleted { get; set; }
+        public string ShortDescription { get; set; }
         public string Description { get; set; }
-        public string SaleTitle { get; set; }
-        public string SaleDescription { get; set; }
-        public Guid LanguageId { get; set; }
-        public DateTime CreateAt { get; set; }
+        public string Specification { get; set; }
+        public decimal Price { get; set; }
+        public decimal? OldPrice { get; set; }
+        public decimal? SpecialPrice { get; set; }
+        public DateTimeOffset? SpecialPriceStart { get; set; }
+        public DateTimeOffset? SpecialPriceEnd { get; set; }
+        public bool HasOptions { get; set; }
+        public bool IsVisibleIndividually { get; set; }
+        public bool IsFeatured { get; set; }
+        public bool IsCallForPricing { get; set; }
+        public bool IsAllowToOrder { get; set; }
+        public bool StockTrackingIsEnabled { get; set; }
+        public int StockQuantity { get; set; }
+        public string NormalizedName { get; set; }
+        public int DisplayOrder { get; set; }
+        public int ReviewsCount { get; set; }
+        public double? RatingAverage { get; set; }
+        public int? BrandId { get; set; }
+        public Brand Brand { get; set; }
+        public IList<int> CategoryIds { get; set; } = new List<int>();
     }
 
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, bool>
@@ -34,25 +54,96 @@ namespace Grocery.Application.Products.Commands.UpdateProduct
         }
         public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var productEntity = await _context.Products.FindAsync(request.Id);
-            var productTranslationEntity = await _context.ProductTranslations
-                    .FirstOrDefaultAsync(x => x.ProductId.Equals(request.Id) && x.LanguageId.Equals(request.LanguageId));
+            var product = _context.Products
+                .Include(x => x.ThumbnailImage)
+                .Include(x => x.Categories)
+                .FirstOrDefault(x => x.Id == request.Id);
 
-            if (productEntity == null || productTranslationEntity == null)
+            if (product == null)
             {
-                throw new EntityNotFoundException(typeof(Product).Name, request.Id);
+                throw new EntityNotFoundException(typeof(Product).Name, product);
             }
 
-            _context.ProductTranslations.Update(new ProductTranslation
+            var isPriceChanged = false;
+            if (product.Price != request.Price ||
+                product.OldPrice != request.OldPrice ||
+                product.SpecialPrice != request.SpecialPrice ||
+                product.SpecialPriceStart != request.SpecialPriceStart ||
+                product.SpecialPriceEnd != request.SpecialPriceEnd)
             {
-                Name = request.Name,
-                Detail = request.Detail,
-                Description = request.Description,
-                SaleTitle = request.SaleTitle,
-                SaleDescription = request.SaleDescription
-            });
+                isPriceChanged = true;
+            }
+
+            product.Name = request.Name;
+            product.MetaTitle = request.MetaTitle;
+            product.MetaKeywords = request.MetaKeywords;
+            product.MetaDescription = request.MetaDescription;
+            product.ShortDescription = request.ShortDescription;
+            product.Description = request.Description;
+            product.Specification = request.Specification;
+            product.Price = request.Price;
+            product.OldPrice = request.OldPrice;
+            product.SpecialPrice = request.SpecialPrice;
+            product.SpecialPriceStart = request.SpecialPriceStart;
+            product.SpecialPriceEnd = request.SpecialPriceEnd;
+            product.BrandId = request.BrandId;
+            product.IsFeatured = request.IsFeatured;
+            product.IsPublished = request.IsPublished;
+            product.IsCallForPricing = request.IsCallForPricing;
+            product.IsAllowToOrder = request.IsAllowToOrder;
+            product.StockTrackingIsEnabled = request.StockTrackingIsEnabled;
+
+            if (isPriceChanged)
+            {
+                var productPriceHistory = CreatePriceHistory(product);
+                product.PriceHistories.Add(productPriceHistory);
+            }
+
+            UpdateProductCategories(request, product);
 
             return await _context.SaveChangesAsync(cancellationToken) > 0;
+        }
+
+        private static ProductPriceHistory CreatePriceHistory(Product product)
+        {
+            return new ProductPriceHistory
+            {
+                Product = product,
+                Price = product.Price,
+                OldPrice = product.OldPrice,
+                SpecialPrice = product.SpecialPrice,
+                SpecialPriceStart = product.SpecialPriceStart,
+                SpecialPriceEnd = product.SpecialPriceEnd
+            };
+        }
+
+        // TODO: Move code below to ProductCategory module?
+        private void UpdateProductCategories(UpdateProductCommand request, Product product)
+        {
+            foreach (var categoryId in request.CategoryIds)
+            {
+                if (product.Categories.Any(x => x.CategoryId == categoryId))
+                {
+                    continue;
+                }
+
+                var productCategory = new ProductCategory
+                {
+                    CategoryId = categoryId
+                };
+                product.AddCategory(productCategory);
+            }
+
+            var deletedProductCategories =
+                product.Categories.Where(productCategory => !request.CategoryIds.Contains(productCategory.CategoryId))
+                    .ToList();
+
+            foreach (var deletedProductCategory in deletedProductCategories)
+            {
+                deletedProductCategory.Product = null;
+                product.Categories.Remove(deletedProductCategory);
+                _context.ProductCategories.Remove(deletedProductCategory);
+            }
         }
     }
 }

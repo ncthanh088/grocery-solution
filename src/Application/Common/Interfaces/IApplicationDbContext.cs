@@ -8,8 +8,9 @@ namespace Grocery.Application.Common.Interfaces
     public interface IApplicationDbContext
     {
         DbSet<Product> Products { get; set; }
+        DbSet<ProductCategory> ProductCategories { get; set; }
+        DbSet<Brand> Brands { get; set; }
         DbSet<Order> Orders { get; set; }
-        DbSet<Cart> Carts { get; set; }
         DbSet<Category> Categories { get; set; }
         DbSet<Promotion> Promotions { get; set; }
         DbSet<Transaction> Transactions { get; set; }

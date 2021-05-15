@@ -1,6 +1,6 @@
 namespace Grocery.Domain.Enums
 {
-    public enum CategoryStatusEnum
+    public enum CategoryStatus
     {
         Actived,
         InActived
