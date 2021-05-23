@@ -64,57 +64,19 @@ namespace Grocery.Application.Products.Commands.UpdateProduct
                 throw new EntityNotFoundException(typeof(Product).Name, product);
             }
 
-            var isPriceChanged = false;
-            if (product.Price != request.Price ||
-                product.OldPrice != request.OldPrice ||
-                product.SpecialPrice != request.SpecialPrice ||
-                product.SpecialPriceStart != request.SpecialPriceStart ||
-                product.SpecialPriceEnd != request.SpecialPriceEnd)
-            {
-                isPriceChanged = true;
-            }
-
             product.Name = request.Name;
-            product.MetaTitle = request.MetaTitle;
-            product.MetaKeywords = request.MetaKeywords;
-            product.MetaDescription = request.MetaDescription;
             product.ShortDescription = request.ShortDescription;
             product.Description = request.Description;
-            product.Specification = request.Specification;
             product.Price = request.Price;
             product.OldPrice = request.OldPrice;
             product.SpecialPrice = request.SpecialPrice;
             product.SpecialPriceStart = request.SpecialPriceStart;
             product.SpecialPriceEnd = request.SpecialPriceEnd;
             product.BrandId = request.BrandId;
-            product.IsFeatured = request.IsFeatured;
-            product.IsPublished = request.IsPublished;
-            product.IsCallForPricing = request.IsCallForPricing;
-            product.IsAllowToOrder = request.IsAllowToOrder;
-            product.StockTrackingIsEnabled = request.StockTrackingIsEnabled;
-
-            if (isPriceChanged)
-            {
-                var productPriceHistory = CreatePriceHistory(product);
-                product.PriceHistories.Add(productPriceHistory);
-            }
 
             UpdateProductCategories(request, product);
 
             return await _context.SaveChangesAsync(cancellationToken) > 0;
-        }
-
-        private static ProductPriceHistory CreatePriceHistory(Product product)
-        {
-            return new ProductPriceHistory
-            {
-                Product = product,
-                Price = product.Price,
-                OldPrice = product.OldPrice,
-                SpecialPrice = product.SpecialPrice,
-                SpecialPriceStart = product.SpecialPriceStart,
-                SpecialPriceEnd = product.SpecialPriceEnd
-            };
         }
 
         // TODO: Move code below to ProductCategory module?

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Grocery.Application.Products.Commands.CreateProduct;
 using Grocery.Application.Products.Commands.DeleteProduct;
 using Grocery.Application.Products.Commands.UpdateProduct;
+using Application.Products.Queries.GetProduct;
+
 namespace Grocery.Api.Controllers
 {
     public class ProductsController : BaseController
@@ -33,6 +35,15 @@ namespace Grocery.Api.Controllers
                 return BadRequest();
             }
 
+            var response = await Mediator.Send(request);
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(long id)
+        {
+            var request = new GetProductQuery() { Id = id };
             var response = await Mediator.Send(request);
 
             return Ok(response);
