@@ -1,6 +1,6 @@
 namespace Domain.Enums
 {
-    public class PaymentType
+    public enum PaymentType
     {
         
     }

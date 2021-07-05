@@ -1,10 +1,11 @@
 using Domain.Enums;
+using Grocery.Domain.Common;
 
 namespace Grocery.Domain.Entities
 {
-    public class Payment
+    public class Payment : IEntity<int>
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public PaymentType PaymentType { get; set; }
         public bool Allowed { get; set; }
     }

@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using Grocery.Domain.Common;
+
 namespace Grocery.Domain.Entities
 {
-    public class Customer
+    public class Customer : IEntity<int>
     {
         public int Id { get; set; }
         public string Username { get; set; }
@@ -15,5 +18,7 @@ namespace Grocery.Domain.Entities
         public string Country { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public int OrderId { get; set; }
+        public ICollection<Order> Order { get; set; }    
     }
 }

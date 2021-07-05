@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Grocery.Infrastructure.Persistence.Configuration
 {
-    public class OrderItemConfiguration : IEntityTypeConfiguration<OrderDetail>
+    public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
     {
         public void Configure(EntityTypeBuilder<OrderDetail> builder)
         {
             builder.ToTable("OrderDetails");
-            builder.HasKey(x => x.Id);            
+            builder.HasKey(sc => new { sc.OrderId, sc.ProductId });
         }
     }
 }

@@ -10,7 +10,6 @@ namespace Grocery.Infrastructure.Persistence.Configuration
         {
             builder.ToTable("Customers");
             builder.HasKey(x => x.Id);
-            builder.HasKey(x => x.Id);
         }
     }
 }
