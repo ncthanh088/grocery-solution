@@ -4,13 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations
 {
-    public class TaxConfiguration : IEntityTypeConfiguration<Tax>
+    public class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
     {
-        public void Configure(EntityTypeBuilder<Tax> builder)
+        public void Configure(EntityTypeBuilder<Supplier> builder)
         {
-            builder.ToTable("Taxes");
+            builder.ToTable("Suppliers");
             builder.HasKey(x => x.Id);
-            builder.HasData(new Tax() { Id = 1, Name = "VAT" });
         }
     }
 }

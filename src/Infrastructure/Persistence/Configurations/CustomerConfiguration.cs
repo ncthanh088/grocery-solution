@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Grocery.Infrastructure.Persistence.Configuration
 {
-    public class RoleConfiguration : IEntityTypeConfiguration<Role>
+    public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
+        public void Configure(EntityTypeBuilder<Customer> builder)
         {
-            builder.ToTable("Roles");
+            builder.ToTable("Customers");
+            builder.HasKey(x => x.Id);
             builder.HasKey(x => x.Id);
         }
     }

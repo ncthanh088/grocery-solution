@@ -1,8 +1,8 @@
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Grocery.Application.Common.Interfaces;
 using Grocery.Domain.Entities;
+using Grocery.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Grocery.Infrastructure.Persistence
@@ -14,16 +14,11 @@ namespace Grocery.Infrastructure.Persistence
 
         }
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<ProductCategory> ProductCategories { get; set; }
-        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<District> Districts { get; set; }
-        public DbSet<StateOrProvince> StateOrProvinces { get; set; }
-        public DbSet<Country> Countries { get; set; }
+        public DbSet<Supplier> Suppliers{ get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
